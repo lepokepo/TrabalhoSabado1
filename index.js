@@ -27,49 +27,42 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-//Rotas
-app.get('/requisicao', function (req, res) {
+app.get('/frequencia', function (req, res) {
+    //Mostra organizado    
     connection.query('select rota, count(rota) as frequencia from requisicao group by rota order by frequencia desc;',
         function (error, results, fields) {
             if (error)
                 res.json;
             else {
-                results.forEach(element => {
-
-                });
-                res.json(results)
-
+                res.send(results)
             }
 
-            console.log('executou /eventos')
         })
 });
 
 var myLogger = function (req, res, next) {
+    console.log("executou log")
+    // Bota no banco
+    var rota = req.url;
+    var ip = req.socket.remoteAddress;
+    var usrAg = req.get('User-Agent');
+    var dt = new Date;
 
-    app.post('/', function (req, res) {
+    connection.query(`insert into requisicao(rota, ip, user_agent, dt_hr) values('${rota}', '${ip}', '${usrAg}', '${dt}')`)
 
-        var rota = req.url;
-        var ip = req.socket.remoteAddress;
-        var usrAg = req.get('User-Agent');
-        var dt = new Date;
-
-        console.log(rota + ip + usrAg + dt)
-
-        connection.query(`insert into requisicao(rota, ip, user-agent, dt_hr) values('${rota}', '${ip}', '${usrAg}', '${dt}')`, function (error, results, fields) {
-            if (error)
-                error.json;
-            else
-                res.json(results);
-            console.log('executou poste');
-        });
-    });
-    console.log('executou log');
-    var wat = ["dale1", "dale2", "dale3", "dale4", "dale5", "dale6", "dale7", "dale8", "dale9", "feitoooooooo"]
+    var wat = ["Nossos fracassos, às vezes, são mais frutíferos do que os êxitos.",
+        "Tente de novo. Fracasse de novo. Mas fracasse melhor",
+        "É costume de um tolo, quando erra, queixar-se dos outros. É costume de um sábio queixar-se de si mesmo",
+        "O verdadeiro heroísmo consiste em persistir por mais um momento, quando tudo parece perdido",
+        "Na prosperidade, nossos amigos nos conhecem; na adversidade, nós é que conhecemos nossos amigos",
+        "Nada acontece a menos que sonhemos antes",
+    ]
     res.send(wat[Math.floor(Math.random() * 10 + 1)])
-};
+}
 
-app.use("/", myLogger);
+
+
+app.use("/*", myLogger);
 
 app.listen(80, function () {
     console.log('Server escutou\n')
