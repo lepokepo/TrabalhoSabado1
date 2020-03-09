@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Evento</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Adicionar Evento</title>
+    <script>
+
+        function srvEnvia(vari) {
+            var nome = document.getElementById("nometx").value
+            var data = document.getElementById("datatx").value
+
+            console.log(nome, data)
+
+            vari = {
+                "nome": nome,
+                "data": data,
+            }
+            console.log(vari)
+            console.log('Posting...');
+            fetch('http://192.168.1.104/add_evento', {
+                method: 'post',
+                body: JSON.stringify(vari),
+            }).then(function (response) {
+                return response.json();
+            });
+        }
+
+    </script>
+    <style>
+        .aa {
+            text-align: center;
+            font-size: 30px;
+            color: rgb(7, 37, 56);
+            background-color: rgb(255, 255, 255);
+            padding-bottom: 5%;
+            padding-top: 3%;
+            width: 25%;
+            margin-top: 13%;
+            margin-left: 35%;
+        }
+
+        .letra {
+            font-size: 20px !important;
+            text-align: left;
+            padding-top: 5%;
+            padding-left: 20%;
+        }
+    </style>
+</head>
+
+<body style="background-color: rgb(148, 248, 255)">
+    <div class="aa">
+        <span>Evento</span>
+        <br>
+        <div class="letra">
+            <form action="">
+                <span>Nome:</span>
+                <input id="nometx" type="text"><br><br>
+
+                <span>Data:</span>
+                <input id="datatx" type="text"><br>
+                <button style="float: right;margin-right: 22%" type="button" onclick="srvEnvia();"
+                    class="btn btn-outline-info">Salvar</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
